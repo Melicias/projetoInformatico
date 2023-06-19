@@ -27,6 +27,9 @@ use App\Http\Controllers\UtilizadorController;
 //free use
 Route::post('login', [UtilizadorController::class, 'login'])->name('login');
 
+//pictures
+Route::get('getPics', [AnoletivoController::class, 'pics']);
+
 Route::get('anoletivo', [AnoletivoController::class, 'index']);
 
 //utilizador logado

@@ -10,6 +10,7 @@ use App\Services\LogsService;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\CoordenadorResource;
 use App\Http\Requests\CoordenadorPostRequest;
+use Illuminate\Support\Facades\Storage;
 
 class CoordenadorController extends Controller
 {
@@ -38,6 +39,15 @@ class CoordenadorController extends Controller
 
         if ($utilizador->isEstudante()) {
             return response("Este utilizador é aluno",422);
+        }
+
+        //new code to add image to the ftp filesystem and save the path in the database
+        if($request->hasFile('foto')){
+            $file = $request->file('foto');
+            $filename = $file->getClientOriginalName();
+            $path = $file->storeAs('ftp', $filename);
+            $pa = Storage::disk('ftp')->put("", $file);
+            //$utilizador->foto = $path;
         }
 
         $coordenador = Coordenador::where('idUtilizador',$utilizador->id)->where('idCurso',$data->get('idCurso'))->first();
